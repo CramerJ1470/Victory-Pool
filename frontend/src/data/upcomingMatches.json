@@ -1,0 +1,183 @@
+{
+  "upcomingMatches": [
+    {
+      "matchId": "20260210-EVE-BOU",
+      "teams": [
+        {
+          "clubName": "Everton",
+          "rank": 8,
+          "record": { "wins": 10, "draws": 7, "losses": 9 },
+          "GF": 29,
+          "GA": 30,
+          "GD": -1,
+          "Pts": 37
+        },
+        {
+          "clubName": "Bournemouth",
+          "rank": 9,
+          "record": { "wins": 9, "draws": 10, "losses": 7 },
+          "GF": 43,
+          "GA": 45,
+          "GD": -2,
+          "Pts": 37
+        }
+      ],
+      "fixture": "Hill Dickinson Stadium",
+      "date": "2026-02-10",
+      "time": "19:30",
+      "dateTime": "2026-02-10T19:30:00Z",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "matchId": "20260210-CHE-LEE",
+      "teams": [
+        {
+          "clubName": "Chelsea",
+          "rank": 5,
+          "record": { "wins": 12, "draws": 8, "losses": 6 },
+          "GF": 47,
+          "GA": 30,
+          "GD": 17,
+          "Pts": 44
+        },
+        {
+          "clubName": "Leeds United",
+          "rank": 15,
+          "record": { "wins": 7, "draws": 9, "losses": 10 },
+          "GF": 36,
+          "GA": 45,
+          "GD": -9,
+          "Pts": 30
+        }
+      ],
+      "fixture": "Stamford Bridge",
+      "date": "2026-02-10",
+      "time": "19:30",
+      "dateTime": "2026-02-10T19:30:00Z",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "matchId": "20260210-TOT-NEW",
+      "teams": [
+        {
+          "clubName": "Tottenham Hotspur",
+          "rank": 16,
+          "record": { "wins": 7, "draws": 8, "losses": 11 },
+          "GF": 36,
+          "GA": 37,
+          "GD": -1,
+          "Pts": 29
+        },
+        {
+          "clubName": "Newcastle United",
+          "rank": 10,
+          "record": { "wins": 10, "draws": 6, "losses": 10 },
+          "GF": 37,
+          "GA": 37,
+          "GD": 0,
+          "Pts": 36
+        }
+      ],
+      "fixture": "Tottenham Hotspur Stadium",
+      "date": "2026-02-10",
+      "time": "19:30",
+      "dateTime": "2026-02-10T19:30:00Z",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "matchId": "20260210-WHU-MUN",
+      "teams": [
+        {
+          "clubName": "West Ham United",
+          "rank": 18,
+          "record": { "wins": 6, "draws": 6, "losses": 14 },
+          "GF": 32,
+          "GA": 49,
+          "GD": -17,
+          "Pts": 24
+        },
+        {
+          "clubName": "Manchester United",
+          "rank": 4,
+          "record": { "wins": 12, "draws": 9, "losses": 5 },
+          "GF": 47,
+          "GA": 37,
+          "GD": 10,
+          "Pts": 45
+        }
+      ],
+      "fixture": "London Stadium",
+      "date": "2026-02-10",
+      "time": "20:15",
+      "dateTime": "2026-02-10T20:15:00Z",
+      "status": "finished",
+      "result": {
+        "homeTeam": "West Ham United",
+        "awayTeam": "Manchester United",
+        "score": "1-1"
+      }
+    },
+    {
+      "matchId": "20260211-CRY-BUR",
+      "teams": [
+        {
+          "clubName": "Crystal Palace",
+          "rank": 13,
+          "record": { "wins": 8, "draws": 8, "losses": 9 },
+          "GF": 26,
+          "GA": 29,
+          "GD": -3,
+          "Pts": 32
+        },
+        {
+          "clubName": "Burnley",
+          "rank": 19,
+          "record": { "wins": 3, "draws": 6, "losses": 16 },
+          "GF": 25,
+          "GA": 49,
+          "GD": -24,
+          "Pts": 15
+        }
+      ],
+      "fixture": "Selhurst Park",
+      "date": "2026-02-11",
+      "time": "19:30",
+      "dateTime": "2026-02-11T19:30:00Z",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "matchId": "20260211-NFO-WOL",
+      "teams": [
+        {
+          "clubName": "Nottingham Forest",
+          "rank": 17,
+          "record": { "wins": 7, "draws": 5, "losses": 13 },
+          "GF": 25,
+          "GA": 38,
+          "GD": -13,
+          "Pts": 26
+        },
+        {
+          "clubName": "Wolverhampton Wanderers",
+          "rank": 20,
+          "record": { "wins": 1, "draws": 5, "losses": 19 },
+          "GF": 16,
+          "GA": 48,
+          "GD": -32,
+          "Pts": 8
+        }
+      ],
+      "fixture": "The City Ground",
+      "date": "2026-02-11",
+      "time": "19:30",
+      "dateTime": "2026-02-11T19:30:00Z",
+      "status": "scheduled",
+      "result": null
+    }
+  ]
+}
+  

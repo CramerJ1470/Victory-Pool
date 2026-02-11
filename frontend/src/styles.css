@@ -1,0 +1,42 @@
+:root { font-family: system-ui, Arial, sans-serif; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: #fff;
+  background: url("./assets/background.png") center/cover no-repeat fixed;
+}
+
+.overlay {
+  min-height: 100vh;
+  background: rgba(0,0,0,0.55);
+  padding: 18px;
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.card {
+  background: rgba(15,15,15,0.65);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 16px;
+  padding: 16px;
+  backdrop-filter: blur(8px);
+}
+
+.row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.spacer { height: 14px; }
+
+button, input, select {
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(0,0,0,0.25);
+  color: #fff;
+}
+
+button { cursor: pointer; }
+.small { font-size: 13px; opacity: 0.9; word-break: break-word; }
+.grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
