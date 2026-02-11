@@ -3,4 +3,5 @@
 *.env.local
 my-workflow/node_modules/
 node_modules
-.DS_Store
+/artifacts
+/cache
