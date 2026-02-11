@@ -75,7 +75,7 @@ Victory-pool/
 
 ```bash
 git clone https://github.com/Cramerj1470/Victory-Pool.git
-cd VictoryPool
+cd victoryPool
 npm install
 
 🔑 Environment Variables

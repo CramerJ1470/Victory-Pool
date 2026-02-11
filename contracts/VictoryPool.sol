@@ -22,17 +22,14 @@ contract VictoryPool {
     }
 
     function placeBet(uint256 marketId, bool side, uint256 amount) external {
-        MarketRegistry.Market memory m = registry.markets(marketId);
+        MarketRegistry.Market memory m = registry.getMarket(marketId);
+
         require(!m.resolved, "Market resolved");
         require(amount > 0, "Zero bet");
 
         vpt.transferFrom(msg.sender, address(this), amount);
 
-        if (side) {
-            registry.markets(marketId).yesPool += amount;
-        } else {
-            registry.markets(marketId).noPool += amount;
-        }
+        registry.addToPool(marketId, side, amount);
 
         Bet storage b = bets[marketId][msg.sender];
         b.amount += amount;
@@ -40,7 +37,7 @@ contract VictoryPool {
     }
 
     function claim(uint256 marketId) external {
-        MarketRegistry.Market memory m = registry.markets(marketId);
+        MarketRegistry.Market memory m = registry.getMarket(marketId);
         Bet storage b = bets[marketId][msg.sender];
 
         require(m.resolved, "Not resolved");
@@ -50,6 +47,7 @@ contract VictoryPool {
         if (b.side == m.outcome) {
             uint256 totalPool = m.yesPool + m.noPool;
             uint256 winningPool = m.outcome ? m.yesPool : m.noPool;
+
             if (winningPool > 0) {
                 uint256 payout = (b.amount * totalPool) / winningPool;
                 vpt.transfer(msg.sender, payout);

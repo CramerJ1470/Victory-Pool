@@ -3,31 +3,32 @@ pragma solidity ^0.8.20;
 
 contract MarketRegistry {
     struct Market {
-        string question;
+        string name;
         uint256 yesPool;
         uint256 noPool;
         bool resolved;
         bool outcome;
     }
 
-    uint256 public marketCount;
-    mapping(uint256 => Market) public markets;
+    mapping(uint256 => Market) internal _markets;
 
-    event MarketCreated(uint256 indexed marketId, string question);
-    event MarketResolved(uint256 indexed marketId, bool outcome);
-
-    function createMarket(string calldata question) external returns (uint256) {
-        marketCount++;
-        markets[marketCount] = Market(question, 0, 0, false, false);
-        emit MarketCreated(marketCount, question);
-        return marketCount;
+    function getMarket(uint256 marketId)
+        external
+        view
+        returns (Market memory)
+    {
+        return _markets[marketId];
     }
 
-    function resolveMarket(uint256 marketId, bool outcome) external {
-        Market storage m = markets[marketId];
-        require(!m.resolved, "Already resolved");
-        m.resolved = true;
-        m.outcome = outcome;
-        emit MarketResolved(marketId, outcome);
+    function addToPool(
+        uint256 marketId,
+        bool side,
+        uint256 amount
+    ) external {
+        if (side) {
+            _markets[marketId].yesPool += amount;
+        } else {
+            _markets[marketId].noPool += amount;
+        }
     }
 }
