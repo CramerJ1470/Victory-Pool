@@ -1,0 +1,12 @@
+{
+  "name": "victort-pool",
+  "author":"sillyNFTier",
+  "version": "1.0.0",
+  "scripts": {
+    "compile": "npx hardhat compile"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.0"
+  }
+}
