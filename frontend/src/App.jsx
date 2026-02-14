@@ -57,7 +57,7 @@ export default function App() {
         />
 
         <div className="spacer" />
-        <div className="grid">
+        <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
           {matches.map((m, idx) => (
             <MatchCard
               key={m.matchId}
