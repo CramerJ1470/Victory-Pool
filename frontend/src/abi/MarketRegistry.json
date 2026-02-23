@@ -1,0 +1,25 @@
+
+{
+  "abi": [
+    {
+      "inputs": [{ "internalType": "uint256", "name": "marketId", "type": "uint256" }],
+      "name": "getMarket",
+      "outputs": [
+        {
+          "components": [
+            { "internalType": "string", "name": "question", "type": "string" },
+            { "internalType": "bool", "name": "resolved", "type": "bool" },
+            { "internalType": "bool", "name": "outcome", "type": "bool" },
+            { "internalType": "uint256", "name": "yesPool", "type": "uint256" },
+            { "internalType": "uint256", "name": "noPool", "type": "uint256" }
+          ],
+          "internalType": "struct MarketRegistry.Market",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+}

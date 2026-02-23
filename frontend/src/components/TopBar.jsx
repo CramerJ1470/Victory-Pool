@@ -1,5 +1,6 @@
+// src/components/TopBar.jsx
 import { useEffect, useMemo, useState } from "react";
-import { useReadContract, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { parseEther } from "viem";
 
 import { ADDRESSES } from "../lib/addresses";
@@ -20,13 +21,16 @@ const ERC20ApproveAbi = [
 ];
 
 export default function TopBar({ address, balance, chainName, onDisconnect }) {
-  // --- Reads ---
+  const { address: wagmiAddress } = useAccount();
+  const effectiveAddress = address ?? wagmiAddress;
+
+  // ===== Faucet Reads =====
   const claimed = useReadContract({
     address: ADDRESSES.FAUCET,
     abi: VPTFaucetAbi,
     functionName: "hasClaimed",
-    args: address ? [address] : undefined,
-    query: { enabled: !!address && !!ADDRESSES.FAUCET },
+    args: effectiveAddress ? [effectiveAddress] : undefined,
+    query: { enabled: !!effectiveAddress && !!ADDRESSES.FAUCET },
   });
 
   const ethPrice = useReadContract({
@@ -45,7 +49,7 @@ export default function TopBar({ address, balance, chainName, onDisconnect }) {
 
   const hasClaimed = claimed.data === true;
 
-  // --- Writes (we’ll track tx hash per action) ---
+  // ===== Faucet Writes =====
   const { writeContract } = useWriteContract();
   const [txHash, setTxHash] = useState(null);
   const [phase, setPhase] = useState(""); // "claim" | "buyEth" | "approveLink" | "buyLink"
@@ -60,7 +64,6 @@ export default function TopBar({ address, balance, chainName, onDisconnect }) {
     if (!receipt.isSuccess) return;
 
     if (phase === "approveLink") {
-      // next step: buy with link
       setPhase("buyLink");
       writeContract(
         {
@@ -69,17 +72,15 @@ export default function TopBar({ address, balance, chainName, onDisconnect }) {
           functionName: "buy50WithLink",
           args: [],
         },
-        {
-          onSuccess: (hash) => setTxHash(hash),
-        }
+        { onSuccess: (hash) => setTxHash(hash) }
       );
     }
 
-    // After any completed tx (claim / buyEth / buyLink), refresh reads
     if (phase === "claim" || phase === "buyEth" || phase === "buyLink") {
       claimed.refetch?.();
     }
-  }, [receipt.isSuccess]); // eslint-disable-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [receipt.isSuccess]);
 
   const busy = receipt.isLoading || receipt.isFetching;
 
@@ -100,9 +101,7 @@ export default function TopBar({ address, balance, chainName, onDisconnect }) {
         functionName: "claim100",
         args: [],
       },
-      {
-        onSuccess: (hash) => setTxHash(hash),
-      }
+      { onSuccess: (hash) => setTxHash(hash) }
     );
   };
 
@@ -117,9 +116,7 @@ export default function TopBar({ address, balance, chainName, onDisconnect }) {
         args: [],
         value,
       },
-      {
-        onSuccess: (hash) => setTxHash(hash),
-      }
+      { onSuccess: (hash) => setTxHash(hash) }
     );
   };
 
@@ -133,9 +130,7 @@ export default function TopBar({ address, balance, chainName, onDisconnect }) {
         functionName: "approve",
         args: [ADDRESSES.FAUCET, amount],
       },
-      {
-        onSuccess: (hash) => setTxHash(hash),
-      }
+      { onSuccess: (hash) => setTxHash(hash) }
     );
   };
 
@@ -151,7 +146,7 @@ export default function TopBar({ address, balance, chainName, onDisconnect }) {
         </div>
 
         <div style={{ textAlign: "right" }}>
-          <div className="small">Wallet: {address}</div>
+          <div className="small">Wallet: {effectiveAddress}</div>
           <div className="small">VPT: {balance}</div>
 
           <div className="spacer" />
@@ -168,9 +163,7 @@ export default function TopBar({ address, balance, chainName, onDisconnect }) {
                 </button>
 
                 <button onClick={onBuyWithLink} disabled={!canBuyLink || busy}>
-                  {busy && (phase === "approveLink" || phase === "buyLink")
-                    ? "Buying..."
-                    : "Buy +50 VPT (1 LINK)"}
+                  {busy && (phase === "approveLink" || phase === "buyLink") ? "Buying..." : "Buy +50 VPT (1 LINK)"}
                 </button>
               </>
             )}
@@ -191,3 +184,4 @@ export default function TopBar({ address, balance, chainName, onDisconnect }) {
     </div>
   );
 }
+
