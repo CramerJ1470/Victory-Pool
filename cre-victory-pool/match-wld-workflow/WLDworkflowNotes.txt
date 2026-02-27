@@ -1,0 +1,125 @@
+MatchMarketFactory: 0x8BBeCc9f636294cE2Fe1946Dfd1386AA98B648E6
+
+**********************************************************************************************
+go into cre-vistory-pool/contracts dir and enter this command:
+
+forge create src/MatchWLDPredictionMarket.sol:MatchWLDPredictionMarket   --rpc-url "https://ethereum-sepolia-rpc.publicnode.com"   --private-key $CRE_ETH_PRIVATE_KEY   --broadcast   --constructor-args 0x15fc6ae953e024d975e77382eeec56a9101f9f88 
+
+this example is contract: 0x8BBeCc9f636294cE2Fe1946Dfd1386AA98B648E6
+
+cut and paste contract address in config.staging.json as  marketAdress:
+
+add to .env file as MARKET_ADDRESS
+
+if you want to verify your contract from the bash line: 
+  you need a sepolia Etherscan Api Key and set it in .env as SEP_ETH_API_KEY
+run command to capture your env environement (check your path): source ../.env 
+  
+  run command : forge verify-contract $MARKET_ADDRESS src/MatchWLDPredictionMarket.sol:MatchWLDPredictionMarket --chain sepolia   --etherscan-api-key $SEP_ETH_API_KEY
+
+Now we create prediction market for certain match: 
+
+run workflow from Cre-Victory-pool dir: cre workflow simulate ./match-wld-workflow --broadcast
+
+  it will show: 🚀 Workflow simulation ready. Please select a trigger:
+          1. http-trigger@1.0.0-alpha Trigger
+          2. evm:ChainSelector:16015286601757825753@1.0.0 LogTrigger
+
+          Enter your choice (1-2): 
+          ** type: 1
+
+  then this will show: 🔍 HTTP Trigger Configuration:
+          Please provide JSON input for the HTTP trigger.
+          You can enter a file path or JSON directly.
+
+          Enter your input:
+          ** Enter your question (later on app will handle this): 
+          {"question":"Will Chelsea Win, Lost or Draw against Leeds United on 2026-02-10T19:30:00Z? enum=[WIN.LOST,DRAW]"}
+
+          
+  record the transaction hash:       
+
+transaction hash: 0x31d36135663f46aa9368d2477c18341e2f67c2b93ed66b18dc2bc7e88a345927
+
+
+lets getMarket: Note: on etherscan  you can see you transaction on the Market address contract and it will let you know the marketID which if this first on will be 0- this one is 1 for our example here
+
+run command: cast call $MARKET_ADDRESS "getMarket(uint256) returns ((address,uint48,uint48,bool,uint16,uint8,uint256,uint256,uint256,string))"   1  --rpc-url "https://ethereum-sepolia-rpc.publicnode.com"
+
+something like this will be returned: (0x15fC6ae953E024d975e77382eEeC56A9101f9F88, 1771265424 [1.771e9], 0, false, 0, 0, 0, 0, 0, "Will Chelsea Win, Lost or Drew against Leeds United on 2026-02-10T19:30:00Z enum=[WIN,LOST,`DRAW`]")
+
+Lets requestSettlement:
+run command: cast send $MARKET_ADDRESS "requestSettlement(uint256)"   1  --rpc-url "https://ethereum-sepolia-rpc.publicnode.com"   --private-key $CRE_ETH_PRIVATE_KEY
+
+record the transaction hash: 
+request settlement hash: 0x63233f9f7404ac5aca4a573480fb8814c2cfb251d95cc4aa242b939cc5c80b35
+
+now let's get settlement results using the Gemini AI:
+  run command: cre workflow simulate ./match-wld-workflow --broadcast
+
+    it will show: 🚀 Workflow simulation ready. Please select a trigger:
+          1. http-trigger@1.0.0-alpha Trigger
+          2. evm:ChainSelector:16015286601757825753@1.0.0 LogTrigger
+
+          Enter your choice (1-2): 
+          ** type: 2
+
+  then this will show: 🔍 HTTP Trigger Configuration:
+          🔗 EVM Trigger Configuration: 
+          Please provide the transaction hash and event index for the EVM log event.
+          Enter transaction hash (0x...):
+          enter your requestSettlement transaction hash: 0x9e133fa86c8c4665126817938a974a82f205d5c8dc09f91b5ac7c1f49569957c
+
+Answer: "DRAW"
+
+
+Trying Different Answer:
+
+{"question": "Will Everton Win, Lose or Draw against Bournemouth on 2026-02-10T19:30:00Z? enum=[WIN,LOST,`DRAW`]"}
+
+new match hash: 0x4ee3a969c6e35282fe6b631fff057e00b301e22e5e542ef221dbec22d73ad1a1
+
+marketId: 2
+
+requestSettlement hash: 0x0f65f4269f65d1c2c6714329377a5471c81fb731093b49554ccafe980ac0c372
+
+
+
+Predictions:
+cast send $MARKET_ADDRESS "predict(uint256,uint8)" 0 0 --value 0.01ether --rpc-url "https://ethereum-sepolia-rpc.publicnode.com" --private-key $CRE_ETH_PRIVATE_KEY
+
+
+lets test the requestSettlement:
+
+
+request settlement transaction hash: 0xcda58dcc60aa0d4ed3f5ca101091da9b66ff9f29ed690cc0fc027ec9dfa67b13
+
+{"question": "Will Tottenham Hotspur Win, Lose or Draw against Newcastle on 2026-02-10T19:30:00Z? enum=[WIN,LOST,DRAW]"}
+
+marketId: 3
+
+match hash: 0x86fbec16cf844bf38b1496d4073e33f100e9081b965c42c4bf8f012909f3639b
+
+values you see below 3 0 : 3 is the marketId, 0 is prediction in this case 0=WIN, 1=LOST, 2=DRAW
+
+cast send 0x8BBeCc9f636294cE2Fe1946Dfd1386AA98B648E6 "predictMatch(uint256,uint8)" 3 0 --value 0.01ether --rpc-url "https://ethereum-sepolia-rpc.publicnode.com" --private-key $CRE_ETH_PRIVATE_KEY
+
+prediction hash: 0x6ccc073879590e9756334c655637879b71911109bd78046f694bdb30d0e040eb
+
+lets get the prediction: 
+
+cast call 0x8BBeCc9f636294cE2Fe1946Dfd1386AA98B648E6 "getPrediction(uint256,address) returns ((uint256,uint8,bool))" 3 0x83E048fE9699C3d9a81ba9217Ccd064d148cE2A9 --rpc-url "https://ethereum-sepolia-rpc.publicnode.com"
+
+requestSettlement hash: 0x4a98142bd1c767e9894b78454cb6cbb2dbb589785d930eb90abb37b1e98d0a39
+
+remeber marketId:3
+
+cast send 0x8BBeCc9f636294cE2Fe1946Dfd1386AA98B648E6 "claim(uint256)" 3 --rpc-url "https://ethereum-sepolia-rpc.publicnode.com" --private-key $CRE_ETH_PRIVATE_KEY
+
+
+
+
+through app :0x930a6a0a48c803e4c1f2281230748330f379fc0715b76672459e893e06ded379
+
+
+frontend work to rum on

@@ -1,0 +1,49 @@
+{
+  "VPToken": {
+    "address": "0x8c08f20d9020e5ff5e4A5Ed4dA2E61ED4a7857a7",
+    "factoryName": "VPToken",
+    "args": [],
+    "deployedAt": "2026-02-11T19:30:37.266Z"
+  },
+  "MarketRegistry": {
+    "address": "0x3a44190c234E731Fb7bdDE9DF7EFb52AEAfDe58a",
+    "factoryName": "MarketRegistry",
+    "args": [],
+    "deployedAt": "2026-02-11T19:30:50.386Z"
+  },
+  "VictoryPool": {
+    "address": "0x3277FD48B17193F8A0D278145Db10550dc539571",
+    "factoryName": "VictoryPool",
+    "args": [
+      "0x8c08f20d9020e5ff5e4A5Ed4dA2E61ED4a7857a7",
+      "0x3a44190c234E731Fb7bdDE9DF7EFb52AEAfDe58a"
+    ],
+    "deployedAt": "2026-02-11T19:31:01.084Z"
+  },
+  "VPTFaucet": {
+    "address": "0x9A47CCBf7FE67818DF2443560a68B7A69a346430",
+    "factoryName": "VPTFaucet",
+    "args": [
+      "0x8c08f20d9020e5ff5e4A5Ed4dA2E61ED4a7857a7",
+      "0x779877A7B0D9E8603169DdbD7836e478b4624789",
+      "1000000000000000",
+      "1000000000000000000"
+    ],
+    "deployedAt": "2026-02-11T19:34:50.418Z"
+  },
+  "meta": {
+    "network": "sepolia",
+    "chainId": "11155111",
+    "lastRunAt": "2026-02-11T19:35:01.146Z",
+    "deployer": "0x83E048fE9699C3d9a81ba9217Ccd064d148cE2A9",
+    "token": "0x8c08f20d9020e5ff5e4A5Ed4dA2E61ED4a7857a7",
+    "registry": "0x3a44190c234E731Fb7bdDE9DF7EFb52AEAfDe58a",
+    "pool": "0x3277FD48B17193F8A0D278145Db10550dc539571",
+    "faucet": "0x9A47CCBf7FE67818DF2443560a68B7A69a346430",
+    "link": "0x779877A7B0D9E8603169DdbD7836e478b4624789",
+    "faucetPrices": {
+      "ethPriceWei": "1000000000000000",
+      "linkPriceWei": "1000000000000000000"
+    }
+  }
+}
