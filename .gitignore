@@ -1,7 +1,13 @@
 *.env
 *secrets
 *.env.local
-my-workflow/node_modules/
-node_modules
+/node_modules
+
 /artifacts
+
+
+cache
+
+
 /cache
+.vercel

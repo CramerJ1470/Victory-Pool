@@ -132,6 +132,32 @@ This project is for educational and experimental purposes.
 Check local laws before deploying betting-related applications.
 
 ⸻
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         PREDICTION MARKET FLOW                          │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  1. CREATE MARKET                                                       │
+│     App creates a market with a Yes/No question                      │
+│     Example: "Will Liverpool beat Bournemouth on Wed Feb 11th, 2026?"                   │
+│                                                                         │
+│  2. PREDICT                                                             │
+│     Users stake VPT on Yes or No                                        │
+│     → Funds go into Yes Pool or No Pool                                 │
+│                                                                         │
+│  3. REQUEST SETTLEMENT                                                  │
+│     Anyone can request settlement                                       │
+│     → Emits SettlementRequested event                                   │
+│     → CRE Log Trigger detects event                                     │
+│     → CRE asks Gemini AI for the answer                                 │
+│     → CRE writes outcome back via onReport()                            │
+│                                                                         │
+│  4. CLAIM WINNINGS                                                      │
+│     Winners claim their share of the total pool                         │
+│     → Your stake * (Total Pool / Winning Pool)                          │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+
 
 📜 License
 

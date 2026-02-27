@@ -1,5 +1,0 @@
-.vercel
-.env.developement.local
-.env
-.env/*
-node_modules
