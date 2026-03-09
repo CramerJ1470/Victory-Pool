@@ -17,7 +17,7 @@ import {
 } from "wagmi";
 
 import VPTokenAbi from "../abi/VPToken.json";
-import MatchWLDPredictionMarketArtifact from "../abi/MatchWLDPredictionMarketabi.json";
+import MatchWLDPredictionMarketArtifact from "../abi/MatchWLDPredictionMarketABI.json";
 
 import { ADDRESSES, VPT_DECIMALS } from "../lib/addresses";
 import cryptoclubmarketlist from "../data/cryptoclubmarketlist";
