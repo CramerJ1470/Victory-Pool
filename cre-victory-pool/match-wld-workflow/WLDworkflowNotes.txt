@@ -49,7 +49,7 @@ run command: cast call $MARKET_ADDRESS "getMarket(uint256) returns ((address,uin
 something like this will be returned: (0x15fC6ae953E024d975e77382eEeC56A9101f9F88, 1771265424 [1.771e9], 0, false, 0, 0, 0, 0, 0, "Will Chelsea Win, Lost or Drew against Leeds United on 2026-02-10T19:30:00Z enum=[WIN,LOST,`DRAW`]")
 
 Lets requestSettlement:
-run command: cast send $MARKET_ADDRESS "requestSettlement(uint256)"   1  --rpc-url "https://ethereum-sepolia-rpc.publicnode.com"   --private-key $CRE_ETH_PRIVATE_KEY
+run command: cast send $WLD_MARKET_ADDRESS "requestSettlement(uint256)"   0  --rpc-url "https://ethereum-sepolia-rpc.publicnode.com"   --private-key $CRE_ETH_PRIVATE_KEY
 
 record the transaction hash: 
 request settlement hash: 0x63233f9f7404ac5aca4a573480fb8814c2cfb251d95cc4aa242b939cc5c80b35

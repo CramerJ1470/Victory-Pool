@@ -273,13 +273,111 @@ run workflow from cre-Victory-pool dir: cre workflow simulate ./match-wld-workfl
 
           
   record the transaction hash: 
-  
 
   check transaction hash on https://sepolia.etherscan.io/
 
   Under logs, you can see the marketId. If this is your first MatchCreated it will be 0.
 
-  
+## Get Market
+
+	Lets getMarket: Note: on etherscan  you can see you transaction on the Market address contract and it will let you know the marketID which if this first on will be 0- this one is 1 for our example here
+
+	run command: cast call $WLD_MARKET_ADDRESS "getMarket(uint256) returns ((address,uint48,uint48,bool,uint16,uint8,uint256,uint256,uint256,string))"   0  --rpc-url "https://ethereum-sepolia-rpc.publicnode.com"
+
+	something like this will be returned: (0x15fC6ae953E024d975e77382eEeC56A9101f9F88, 1771265424 [1.771e9], 0, false, 0, 0, 0, 0, 0, "Will Chelsea Win, Lost or Drew against Leeds United on 2026-02-10T19:30:00Z enum=[WIN,LOST,`DRAW`]")
+
+## Make a prediction
+
+	First you must get approved for VPT (Victory Pool Token) in order to predict.
+	This can happen once you've deployed the frontend and have requested under any match card to approve - and pick any amount up to your current holdings. 
+
+	Let's make a prediction...
+
+	here is function parameters for predicting- function predictMatchWithVPT(uint256 marketId, Prediction prediction, uint256 amount)
+	You can see args are (marketID, what your predition is (WIN=0,LOST=1,DRAW=2), amount)
+	
+	Predictions:
+	```bash
+	cast send $MARKET_ADDRESS "predictMatchWithVPT(uint256,uint8,uint256)" 0 0 10 --rpc-url "https://ethereum-sepolia-rpc.publicnode.com" --private-key $CRE_ETH_PRIVATE_KEY
+	```
+
+	check you prediction on you WLD_MARKET_ADDRESS sepolis etherscaen - you will see predictMatchWithVPT
+
+	lets get the market an see our prediction :
+
+	```bash
+	cast call $WLD_MARKET_ADDRESS "getMarket(uint256) returns ((address,uint48,uint48,bool,uint16,uint8,uint256,uint256,uint256,string))"   0  --rpc-url "https://ethereum-sepolia-rpc.publicnode.com"
+	```
+
+	returns something like this: 
+	(0x15fC6ae953E024d975e77382eEeC56A9101f9F88, 1773022968 [1.773e9], 0, false, 0, 0, 10, 0, 0, "Will Chelsea Win, Lost or Draw against Leeds United on 2026-02-10T19:30:00Z? enum=[WIN,LOST,DRAW]")
+
+	False show it has not been settled yet, then you have 10,0,0 (WIN,LOST,DRAW) and you bet win so it shows 10 in the WinPool position
+
+	or, sheck you prediction: 
+
+	```bash
+	cast call $WLD_MARKET_ADDRESS "getPrediction(uint256,address) returns ((uint256,uint8,bool))" 0 <your wallet here> --rpc-url 
+	"https://ethereum-sepolia-rpc.publicnode.com"
+	
+	___
+
+	returns: (10, 0, false) 10- VPT bet, 0 = WIN, false =not claimed
+
+	
+## RequestSettlement
+
+	Lets requestSettlement:
+	run command: 
+	```bash
+	cast send $MARKET_ADDRESS "requestSettlement(uint256)"  0  --rpc-url "https://ethereum-sepolia-rpc.publicnode.com"   --private-key $CRE_ETH_PRIVATE_KEY
+	```	
+	record the transaction hash for the next step
+
+
+## Settle Market with Gemini:
+
+	Let's get settlement results using the Gemini AI:
+  	run command: 
+
+	```bash
+	cre workflow simulate ./match-wld-workflow --broadcast
+	
+
+    it will show: Workflow simulation ready. Please select a trigger:
+          1. http-trigger@1.0.0-alpha Trigger
+          2. evm:ChainSelector:16015286601757825753@1.0.0 LogTrigger
+
+          Enter your choice (1-2): 
+          ** type: 2
+
+  then this will show: 🔍 HTTP Trigger Configuration:
+          🔗 EVM Trigger Configuration: 
+          Please provide the transaction hash and event index for the EVM log event.
+          Enter transaction hash (0x...):
+          enter your requestSettlement transaction hash: <you requestsettlement transaction hash>
+
+		  enter 0 for last prompt
+
+Answer: "DRAW"
+
+lets check the market now: 
+```bash
+cast call $WLD_MARKET_ADDRESS "getMarket(uint256) returns ((address,uint48,uint48,bool,uint16,uint8,uint256,uint256,uint256,string))"   0  --rpc-url "https://ethereum-sepolia-rpc.publicnode.com"
+```
+
+returns: (0x15fC6ae953E024d975e77382eEeC56A9101f9F88, 1773022968 [1.773e9], 1773026796 [1.773e9], true, 10000 [1e4], 2, 10, 0, 0, "Will Chelsea Win, Lost or Draw against Leeds United on 2026-02-10T19:30:00Z? enum=[WIN,LOST,DRAW]")
+
+shows true= settled, 10000 = top confidence, 2 is result (DRAW) 10,0,0 are predictions WIN,LOST,DRAW
+
+
+
+
+
+
+
+
+
 
 
 

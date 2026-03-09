@@ -1,0 +1,48 @@
+###############################################################################
+### REQUIRED ENVIRONMENT VARIABLES - SENSITIVE INFORMATION                  ###
+### DO NOT STORE RAW SECRETS HERE IN PLAINTEXT IF AVOIDABLE                 ###
+### DO NOT UPLOAD OR SHARE THIS FILE UNDER ANY CIRCUMSTANCES                ###
+###############################################################################
+
+
+# Gemini configuration: API Key
+GEMINI_API_KEY_VAR=<your gemini api key>
+
+
+SEPOLIA_RPC_URL=https://ethereum-sepolia-rpc.publicnode.com
+PRIVATE_KEY=<your Private Key>
+## These you can deploy yourself or use the below
+
+VPT=0x8c08f20d9020e5ff5e4A5Ed4dA2E61ED4a7857a7 
+Registry=0x3a44190c234E731Fb7bdDE9DF7EFb52AEAfDe58a
+VictoryPool=0x3277FD48B17193F8A0D278145Db10550dc539571
+VPTFaucet=0x9A47CCBf7FE67818DF2443560a68B7A69a346430
+
+
+## Chainlink addresses for Sepolia
+SEPOLIA_LINK_ADDRESS=779877A7B0D9E8603169DdbD7836e478b4624789
+
+FAUCET_ETH_PRICE=0.001
+FAUCET_LINK_PRICE=1
+FAUCET_FUND_VPT=1000000
+
+CRE_ETH_PRIVATE_KEY=<your private key>
+# Default target used when --target flag is not specified (e.g. staging-settings, production-settings, my-target)
+CRE_TARGET=staging-settings
+export SEP_ETH_API_KEY=<you sepolia ethercan api key>
+# Gemini configuration: API Key
+
+export WLD_MARKET_ADDRESS=<your deployed MatchWLDMarketPrediction address>
+WLD_MARKET_ADDRESS=<your deployed MatchWLDMarketPrediction address>
+
+
+export VITE_MATCH_MARKET_ADMIN_WALLET_ADDRESS=<your admin wallet>
+export MATCH_WLD_MARKET_ADDRESS=<your deployed MatchWLDMarketPrediction address>
+###############################################################################
+### REQUIRED ENVIRONMENT VARIABLES - SENSITIVE INFORMATION                  ###
+### DO NOT STORE RAW SECRETS HERE IN PLAINTEXT IF AVOIDABLE                 ###
+### DO NOT UPLOAD OR SHARE THIS FILE UNDER ANY CIRCUMSTANCES                ###
+###############################################################################
+
+
+# Gemini configuration: API Key
