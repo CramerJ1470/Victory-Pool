@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "dist/main.js",
   "private": true,
+ 
   "scripts": {
-    "postinstall": "bun x cre-setup"
+    "postinstall": "bunx cre-setup"
   },
   "license": "UNLICENSED",
   "dependencies": {

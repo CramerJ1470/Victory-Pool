@@ -55,13 +55,21 @@ contract MatchWLDPredictionMarket is ReceiverTemplate {
     }
 
     IERC20 public immutable vpt;
-
-    uint256 internal nextMarketId;
+ uint256 internal nextMarketId;
     mapping(uint256 marketId => Market market) internal markets;
     mapping(uint256 marketId => mapping(address user => UserPrediction)) internal predictions;
 
+    /// @notice Constructor sets the Chainlink Forwarder address for security
+    /// @param _forwarderAddress The address of the Chainlink KeystoneForwarder contract
+    /// @dev For Sepolia testnet, use: 0x15fc6ae953e024d975e77382eeec56a9101f9f88
+
+    // ***constructor(address _forwarderAddress) ReceiverTemplate(_forwarderAddress) {}
+    // uint256 internal nextMarketId;
+    // mapping(uint256 marketId => Market market) internal markets;
+    // mapping(uint256 marketId => mapping(address user => UserPrediction)) internal predictions;
+
     /// @notice Constructor sets Forwarder + VPT token
-    /// @param _forwarderAddress Chainlink Forwarder address
+    // /// @param _forwarderAddress Chainlink Forwarder address
     /// @param _vpt VPT ERC20 token address
     constructor(address _forwarderAddress, address _vpt) ReceiverTemplate(_forwarderAddress) {
         vpt = IERC20(_vpt);

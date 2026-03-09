@@ -34,7 +34,7 @@ run workflow from Cre-Victory-pool dir: cre workflow simulate ./match-wld-workfl
 
           Enter your input:
           ** Enter your question (later on app will handle this): 
-          {"question":"Will Chelsea Win, Lost or Draw against Leeds United on 2026-02-10T19:30:00Z? enum=[WIN.LOST,DRAW]"}
+          {"question":"Will Chelsea Win, Lost or Draw against Leeds United on 2026-02-10T19:30:00Z? enum=[WIN,LOST,DRAW]"}
 
           
   record the transaction hash:       
@@ -74,8 +74,7 @@ Answer: "DRAW"
 
 
 Trying Different Answer:
-
-{"question": "Will Everton Win, Lose or Draw against Bournemouth on 2026-02-10T19:30:00Z? enum=[WIN,LOST,`DRAW`]"}
+{"question": "Will Everton Win, Lose or Draw against Bournemouth on 2026-02-10T19:30:00Z? enum=[WIN,LOST,DRAW]"}
 
 new match hash: 0x4ee3a969c6e35282fe6b631fff057e00b301e22e5e542ef221dbec22d73ad1a1
 

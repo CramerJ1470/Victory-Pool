@@ -2,7 +2,6 @@
 ### Sport Blockchain Prediction Platform
 
 ![Solidity](https://img.shields.io/badge/Solidity-0.8.20-black)
-![Hardhat](https://img.shields.io/badge/Hardhat-Framework-yellow)
 ![Ethereum](https://img.shields.io/badge/Ethereum-Sepolia_Testnet-purple)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Status](https://img.shields.io/badge/Status-MVP-orange)
@@ -82,10 +81,17 @@ npm install
 
 Create a .env file:
 
-SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/YOUR_KEY
+SEPOLIA_RPC_URL=https://ethereum-sepolia-rpc.publicnode.com
 PRIVATE_KEY=your_wallet_private_key
 
-⚠️ Never commit your private key
+**Victory Pool Token (VPT) addresses
+
+VPT=0x8c08f20d9020e5ff5e4A5Ed4dA2E61ED4a7857a7
+Registry=0x3a44190c234E731Fb7bdDE9DF7EFb52AEAfDe58a
+VictoryPool=0x3277FD48B17193F8A0D278145Db10550dc539571
+VPTFaucet=0x9A47CCBf7FE67818DF2443560a68B7A69a346430
+
+⚠️Never commit your private key
 
 ⸻
 
@@ -119,7 +125,7 @@ npx hardhat test
 
 🔮 Roadmap
 	•	Frontend dApp
-	•	Oracle integration (Chainlink)
+	•	CRE integration (Chainlink) 
 	•	Live match feeds
 	•	DAO governance
 	•	Mainnet deployment
@@ -132,30 +138,39 @@ This project is for educational and experimental purposes.
 Check local laws before deploying betting-related applications.
 
 ⸻
-┌─────────────────────────────────────────────────────────────────────────┐
-│                         PREDICTION MARKET FLOW                          │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│  1. CREATE MARKET                                                       │
-│     App creates a market with a Yes/No question                      │
-│     Example: "Will Liverpool beat Bournemouth on Wed Feb 11th, 2026?"                   │
-│                                                                         │
-│  2. PREDICT                                                             │
-│     Users stake VPT on Yes or No                                        │
-│     → Funds go into Yes Pool or No Pool                                 │
-│                                                                         │
-│  3. REQUEST SETTLEMENT                                                  │
-│     Anyone can request settlement                                       │
-│     → Emits SettlementRequested event                                   │
-│     → CRE Log Trigger detects event                                     │
-│     → CRE asks Gemini AI for the answer                                 │
-│     → CRE writes outcome back via onReport()                            │
-│                                                                         │
-│  4. CLAIM WINNINGS                                                      │
-│     Winners claim their share of the total pool                         │
-│     → Your stake * (Total Pool / Winning Pool)                          │
-│                                                                         │
-└─────────────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────────────────────┐
+│                         	VICTORY POOL FRONTEND FLOW				                        │
+├───────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                         					│
+│  1. CREATE MARKET  ( Admin only )                                                   		│
+│     App creates a market with a Yes/No question( h - home team, a - away team, dt= date ) │
+│     Example: "Will ${h} WIN, LOST or DRAW against ${a} on ${dt}? enum=[WIN, LOST, DRAW]"  │
+│                                                                                           │
+│  2. APPROVE ( Admin and users ) - to be used for predictions               				│
+│     All new Users recieve 100 VPT on initial wallet connect (Metamask)               		│
+│     VPT approved balance is for all predictions. Users can purchase additional VPT 		│
+│		with LINK token or Sepolia_ETH	                                 					│
+│                                                                                           │
+│  3. PREDICT ( Admin and users )                                          					│
+│     Users stake VPT on using pull down menu on Home team side for three options      		│
+│     amount of stake default is 10 but can be changed in the inout field  					│
+│     → Funds go into WIN Pool, LOST Pool, or DRAW pool ( based on home team )				│
+│                                                                         					│
+│  4. REQUEST SETTLEMENT  ( Admin or Users )                               					│
+│     Anyone can request settlement                                       					│
+│     → Emits SettlementRequested event                                   					│
+│     → CRE Log Trigger detects event ( in simulation this step is maunual with Forge		│
+│     → CRE asks Gemini AI for the answer                                 					│
+│     → CRE writes outcome back via onReport()                           					│
+│                                                                         					│
+│                                                                         					│
+│                                                                         					│
+│                                                                         					│
+│  4. CLAIM WINNINGS                                                      					│
+│     Winners claim their share of the total pool                         					│
+│     → Your stake * (Total Pool / Winning Pool)                          					│
+│                                                                        					│
+└───────────────────────────────────────────────────────────────────────────────────────────┘
 
 
 

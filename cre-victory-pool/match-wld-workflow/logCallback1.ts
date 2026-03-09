@@ -1,4 +1,4 @@
-// logCallback.ts
+
 import {
   cre,
   type Runtime,
@@ -39,11 +39,11 @@ interface GeminiResult {
 // Must match Solidity Market struct order returned by getMarket()
 interface Market {
   creator: `0x${string}`;
-  createdAt: bigint; // uint48 decoded as bigint by viem
-  settledAt: bigint; // uint48 decoded as bigint by viem
+  createdAt: bigint;     // uint48 decoded as bigint by viem
+  settledAt: bigint;     // uint48 decoded as bigint by viem
   settled: boolean;
-  confidence: number; // uint16 decoded as number
-  outcome: number; // uint8 decoded as number
+  confidence: number;    // uint16 decoded as number
+  outcome: number;       // uint8 decoded as number
   totalWinPool: bigint;
   totalLostPool: bigint;
   totalDrawPool: bigint;
@@ -150,13 +150,16 @@ export function onLogTrigger(runtime: Runtime<Config>, log: EVMLog): string {
       })
       .result();
 
-    const decoded = decodeFunctionResult({
-      abi: GET_MARKET_ABI,
-      functionName: "getMarket",
-      data: bytesToHex(readResult.data),
-    }) as unknown;
+    // decodeFunctionResult returns outputs array
+const decoded = decodeFunctionResult({
+  abi: GET_MARKET_ABI,
+  functionName: "getMarket",
+  data: bytesToHex(readResult.data),
+}) as unknown;
 
-    const market = (Array.isArray(decoded) ? decoded[0] : decoded) as Market;
+const market = (Array.isArray(decoded) ? decoded[0] : decoded) as Market;
+
+
 
     runtime.log(`[Step 2] Market creator: ${market.creator}`);
     runtime.log(`[Step 2] Already settled: ${market.settled}`);
@@ -185,7 +188,7 @@ export function onLogTrigger(runtime: Runtime<Config>, log: EVMLog): string {
 
     if (!["WIN", "LOST", "DRAW"].includes(parsed.result)) {
       throw new Error(
-        `Cannot settle: AI returned ${parsed.result}. Only WIN, LOST, or DRAW can settle a market.`
+        `Cannot settle: AI returned ${parsed.result}. Only Win, LOST, or DRAW can settle a market.`
       );
     }
     if (parsed.confidence < 0 || parsed.confidence > 10000) {
@@ -206,7 +209,7 @@ export function onLogTrigger(runtime: Runtime<Config>, log: EVMLog): string {
       parsed.confidence,
     ]);
 
-    // ✅ Forwarder index 0 involved: prefix byte 0x01
+    // Prefix byte 0x01 for settlement path
     const reportData = ("0x01" + settlementData.slice(2)) as `0x${string}`;
 
     const reportResponse = runtime

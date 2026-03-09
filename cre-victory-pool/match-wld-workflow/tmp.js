@@ -17383,7 +17383,7 @@ function onLogTrigger(runtime2, log) {
     }
     const parsed = JSON.parse(jsonMatch[0]);
     if (!["WIN", "LOST", "DRAW"].includes(parsed.result)) {
-      throw new Error(`Cannot settle: AI returned ${parsed.result}. Only Win, LOST, or DRAW can settle a market.`);
+      throw new Error(`Cannot settle: AI returned ${parsed.result}. Only WIN, LOST, or DRAW can settle a market.`);
     }
     if (parsed.confidence < 0 || parsed.confidence > 1e4) {
       throw new Error(`Invalid confidence: ${parsed.confidence}`);
@@ -17397,7 +17397,7 @@ function onLogTrigger(runtime2, log) {
       outcomeValue,
       parsed.confidence
     ]);
-    const reportData = "0x01" + settlementData.slice(2);
+    const reportData = "0x00" + settlementData.slice(2);
     const reportResponse = runtime2.report({
       encodedPayload: hexToBase64(reportData),
       encoderName: "evm",
