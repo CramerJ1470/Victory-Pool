@@ -17,7 +17,7 @@ import {
 } from "wagmi";
 
 import VPTokenAbi from "../abi/VPToken.json";
-import MatchWLDPredictionMarketArtifact from "../abi/MatchWLDPredictionMarketabi1.json";
+import MatchWLDPredictionMarketArtifact from "../abi/MatchWLDPredictionMarketabi.json";
 
 import { ADDRESSES, VPT_DECIMALS } from "../lib/addresses";
 import cryptoclubmarketlist from "../data/cryptoclubmarketlist";
@@ -182,6 +182,7 @@ function predLabel(n) {
   if (n === 0) return "WIN";
   if (n === 1) return "LOST";
   if (n === 2) return "DRAW";
+  if (n !== 0 && n !== 1 && n !== 2) return "INCONCLUSIVE";
   return String(n);
 }
 

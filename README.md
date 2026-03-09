@@ -172,6 +172,192 @@ Check local laws before deploying betting-related applications.
 │                                                                        					│
 └───────────────────────────────────────────────────────────────────────────────────────────┘
 
+CRE CONTRACTS
+	in contracts folder, create .env
+	use this template:
+
+###############################################################################
+### REQUIRED ENVIRONMENT VARIABLES - SENSITIVE INFORMATION                  ###
+### DO NOT STORE RAW SECRETS HERE IN PLAINTEXT IF AVOIDABLE                 ###
+### DO NOT UPLOAD OR SHARE THIS FILE UNDER ANY CIRCUMSTANCES                ###
+###############################################################################
+# Ethereum private key or 1Password reference (e.g. op://vault/item/field)
+CRE_ETH_PRIVATE_KEY=<Your Sepolia ethereum private key> remeber, only use wallets with test eth do not involve your real wallets out of security
+# Default target used when --target flag is not specified (e.g. staging-settings, production-settings, my-target)
+CRE_TARGET=staging-settings
+
+# Gemini configuration: API Key
+GEMINI_API_KEY_VAR=<Your Gemini API key>
+PREDICTION_MARKET_ADDRESS=0xCf7099fA443f8a6722911a47994AedF5AFbadf541
+SEP_ETH_API_KEY=<your Sepolia eth api key> allows verification of contracts
+WLD_MARKET_ADDRESS=<Your MatchWLDMarketPrediction address after deployment>
+
+# Victory Pool Token:
+VPT=0x8c08f20d9020e5ff5e4A5Ed4dA2E61ED4a7857a7 
+
+
+
+CRE WORKFLOW
+
+
+TO START:
+	deploy contract MatchWLDPredictionMarket.sol
+
+	from you cre-victory-pool/contracts folder we will be working with Forge 
+
+	To  install forge see:
+	https://www.getfoundry.sh/introduction/installation
+
+	at cre-victory-pool directory:
+	
+	```bash
+	curl -L https://foundry.paradigm.xyz | bash
+	
+	# spin up foundry (to use forge commands)
+
+	```bash
+	foundryup
+	
+
+	# grab your enviromental variables
+	```bash
+	source .env
+	
+
+	# create you MatchWLDMarketPrediction contract and deploy
+	```bash
+	forge create src/MatchWLDPredictionMarket.sol:MatchWLDPredictionMarket   --rpc-url "https://ethereum-sepolia-rpc.publicnode.com"   --private-key $CRE_ETH_PRIVATE_KEY   --broadcast --constructor-args 0x15fc6ae953e024d975e77382eeec56a9101f9f88 $VPT
+	```
+
+	From terminal returned infoprmation copy and paste 'deployed to' address an add to .env file as WLD_MARKET_ADDRESS
+	Add it to frontend .env, cre-victory-pool .env and root folder .env
+
+	In your frontend/src/lib/addresses file change MATCH_WLD_MARKET_ADDRESS to your new contract address
+
+	You will need to verify your contract if you are not using a deployment method that gives you access to it.
+
+	To verify your contract from the bash line: 
+  	You need a sepolia Etherscan Api Key and set it in .env as SEP_ETH_API_KEY
+	run command to capture your env environement (check your path): source .env 
+  
+ 	run command : forge verify-contract $WLD_MARKET_ADDRESS src/MatchWLDPredictionMarket.sol:MatchWLDPredictionMarket --chain sepolia   --etherscan-api-key $SEP_ETH_API_KEY
+
+	
+
+	Go to https://sepolia.etherscan.io/ and place you WLD_MARKET_ADDRESS in the tx search
+	Click on contract tab and scroll down to ABI
+	Copy and paste in your frontend/src/abi/MatchWLDPredictionMarketABI.json
+
+___
+
+## 📂 Create Prediction Market
+
+Now we create prediction market for certain match: 
+
+run workflow from cre-Victory-pool dir: cre workflow simulate ./match-wld-workflow --broadcast
+
+  it will show: 🚀 Workflow simulation ready. Please select a trigger:
+          1. http-trigger@1.0.0-alpha Trigger
+          2. evm:ChainSelector:16015286601757825753@1.0.0 LogTrigger
+
+          Enter your choice (1-2): 
+          ** type: 1
+
+  then this will show: 🔍 HTTP Trigger Configuration:
+          Please provide JSON input for the HTTP trigger.
+          You can enter a file path or JSON directly.
+
+          Enter your input:
+          ** Enter your question (later on app will handle this): 
+          {"question":"Will Chelsea Win, Lost or Draw against Leeds United on 2026-02-10T19:30:00Z? enum=[WIN,LOST,DRAW]"}
+
+          
+  record the transaction hash: 
+  
+
+  check transaction hash on https://sepolia.etherscan.io/
+
+  Under logs, you can see the marketId. If this is your first MatchCreated it will be 0.
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+This is simple Typescript workflow. It shows how to create "match-wld-workflow" workflow using Typescript.
+
+Steps to run the example
+
+## 1. Update .env file
+
+You need to add a private key to env file. This is specifically required if you want to simulate chain writes. For that to work the key should be valid and funded.
+If your workflow does not do any chain write then you can just put any dummy key as a private key. e.g.
+
+```
+CRE_ETH_PRIVATE_KEY=0000000000000000000000000000000000000000000000000000000000000001
+```
+
+Note: Make sure your `workflow.yaml` file is pointing to the config.json, example:
+
+```yaml
+staging-settings:
+  user-workflow:
+    workflow-name: "match-wld-workflow-staging"
+  workflow-artifacts:
+    workflow-path: "./main.ts"
+    config-path: "./config.staging.json"
+    secrets-path: "../secrets.yaml"
+```
+
+## 2. Install dependencies
+
+If `bun` is not already installed, see https://bun.com/docs/installation for installing in your environment.
+
+```bash
+cd cre-victory-pool/match-wld-workflow
+ && bun install
+```
+
+Example: For a workflow directory named `match-wld-worflow` the command would be:
+
+```bash
+cd match-wld-workflow && bun install
+```
+
+## 3. Simulate the workflow
+
+Run the command from <b>project root directory</b>
+
+```bash
+cre workflow simulate <path-to-workflow-directory> --target=staging-settings
+```
+
+Example: For workflow named `match-wld-workflow` the command would be:
+
+from cre-victory-pool folder
+
+```bash
+cre workflow simulate ./match-wld-workflow --target=staging-settings
+```
+
+
+
 
 
 📜 License
